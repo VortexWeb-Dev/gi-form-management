@@ -5,14 +5,14 @@ class PageController
     public function render($page)
     {
         // Hardcoded user ID for now (simulate login)
-        $userId = 1; // Change this to test HR (1) or regular User (e.g., 2)
+        $userId = 10; // Change this to test HR (1) or regular User (e.g., 2)
         $isHR = $userId === 1;
 
         // Allowed pages depending on the role
         if ($isHR) {
             $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications'];
         } else {
-            $allowed = ['myforms', 'fill', 'submitted', 'history', 'notifications'];
+            $allowed = ['myforms', 'fill', 'submitted', 'history'];
         }
 
         // Fallback to default page

@@ -9,6 +9,21 @@ function active($name)
 <aside class="w-64 bg-white shadow-md border-r p-4 flex flex-col">
     <div class="text-xl font-bold text-[#0c372a] mb-4 text-center">GI Properties</div>
 
+    <?php
+    // Example user values — replace with actual session or database values
+    $username = $username ?? 'John Doe';
+    $role = $isHR ? 'HR/Admin' : 'User';
+    ?>
+    <div class="bg-[#f0fdf4] text-[#0c372a] border border-[#0c372a]/20 rounded-xl p-3 mb-4 text-sm flex items-center gap-3 shadow-sm">
+        <div class="w-10 h-10 rounded-full bg-[#0c372a] text-white flex items-center justify-center text-sm font-semibold">
+            <?= strtoupper(substr($username, 0, 1)) ?>
+        </div>
+        <div>
+            <div class="font-semibold"><?= $username ?></div>
+            <div class="text-xs text-gray-600"><?= $role ?></div>
+        </div>
+    </div>
+
     <nav class="flex-1 space-y-2">
         <?php if ($isHR): ?>
             <a href="?page=dashboard" class="flex items-center px-3 py-2 rounded-lg hover:bg-[#0c372a]/10 transition <?= active('dashboard') ?>">
@@ -50,9 +65,6 @@ function active($name)
             </a>
             <a href="?page=history" class="flex items-center px-3 py-2 rounded-lg hover:bg-[#0c372a]/10 transition <?= active('history') ?>">
                 <i class="fas fa-history w-5 mr-3"></i>Form History
-            </a>
-            <a href="?page=notifications" class="flex items-center px-3 py-2 rounded-lg hover:bg-[#0c372a]/10 transition <?= active('notifications') ?>">
-                <i class="fas fa-bell w-5 mr-3"></i>Notifications
             </a>
         <?php endif; ?>
     </nav>
