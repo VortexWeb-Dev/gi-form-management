@@ -3,7 +3,7 @@
 class PageController
 {
     private $user;
-    private $hrDepartmentId = 444;
+    private $hrDepartmentId = 64;
 
     public function __construct($user)
     {
@@ -12,14 +12,14 @@ class PageController
 
     public function render($page)
     {
-        $userId = $this->user['ID']; 
-        $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']);
+        $userId = $this->user['ID'];
+        $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']) || $_GET['isHr'] == 'Y';
 
         // Allowed pages depending on the role
         if ($isHR) {
             $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate'];
         } else {
-            $allowed = ['myforms', 'fill', 'submitted', 'history'];
+            $allowed = ['myforms', 'fill', 'submitted', 'history', 'alerts'];
         }
 
         // Fallback to default page

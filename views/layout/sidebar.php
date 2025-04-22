@@ -66,6 +66,9 @@ function active($name)
             <a href="?page=history" class="flex items-center px-3 py-2 rounded-lg hover:bg-[#0c372a]/10 transition <?= active('history') ?>">
                 <i class="fas fa-history w-5 mr-3"></i>Form History
             </a>
+            <a href="?page=alerts" class="flex items-center px-3 py-2 rounded-lg hover:bg-[#0c372a]/10 transition <?= active('alerts') ?>">
+                <i class="fas fa-bell w-5 mr-3"></i>Alerts
+            </a>
         <?php endif; ?>
     </nav>
 
