@@ -11,7 +11,7 @@ function active($name)
 
     <?php
     // Example user values — replace with actual session or database values
-    $username = $username ?? 'John Doe';
+    $username = trim($user['NAME'] . ' ' . $user['LAST_NAME']) ?? 'John Doe';
     $role = $isHR ? 'HR/Admin' : 'User';
     ?>
     <div class="bg-[#f0fdf4] text-[#0c372a] border border-[#0c372a]/20 rounded-xl p-3 mb-4 text-sm flex items-center gap-3 shadow-sm">

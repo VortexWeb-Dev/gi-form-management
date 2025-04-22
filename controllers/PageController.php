@@ -2,11 +2,18 @@
 
 class PageController
 {
+    private $user;
+    private $hrDepartmentId = 444;
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
     public function render($page)
     {
-        // Hardcoded user ID for now (simulate login)
-        $userId = 10; // Change this to test HR (1) or regular User (e.g., 2)
-        $isHR = $userId === 1;
+        $userId = $this->user['ID'];
+        $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']);
 
         // Allowed pages depending on the role
         if ($isHR) {
@@ -40,6 +47,7 @@ class PageController
         // Pass role and user ID to views
         $data['isHR'] = $isHR;
         $data['userId'] = $userId;
+        $data['user'] = $this->user;
 
         extract($data);
 
