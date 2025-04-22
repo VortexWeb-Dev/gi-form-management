@@ -12,12 +12,12 @@ class PageController
 
     public function render($page)
     {
-        $userId = $this->user['ID'];
+        $userId = $this->user['ID']; 
         $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']);
 
         // Allowed pages depending on the role
         if ($isHR) {
-            $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications'];
+            $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate'];
         } else {
             $allowed = ['myforms', 'fill', 'submitted', 'history'];
         }

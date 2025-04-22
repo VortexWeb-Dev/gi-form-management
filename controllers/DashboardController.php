@@ -6,7 +6,7 @@ class DashboardController
     {
         return [
             'title' => 'Dashboard',
-            'description' => 'Summary of forms, pending actions and insights.'
+            'description' => 'Overview of recent activity, pending approvals, and quick actions.'
         ];
     }
 }
