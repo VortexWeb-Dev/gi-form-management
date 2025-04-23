@@ -3,7 +3,8 @@
 class PageController
 {
     private $user;
-    private $hrDepartmentId = 64;
+    // private $hrDepartmentId = 64;
+    private $hrDepartmentId = 444;
 
     public function __construct($user)
     {
@@ -15,14 +16,12 @@ class PageController
         $userId = $this->user['ID'];
         $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']) || $_GET['isHr'] == 'Y';
 
-        // Allowed pages depending on the role
         if ($isHR) {
             $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate'];
         } else {
             $allowed = ['myforms', 'fill', 'submitted', 'history', 'alerts'];
         }
 
-        // Fallback to default page
         if (!in_array($page, $allowed)) {
             $page = $isHR ? 'dashboard' : 'myforms';
         }
@@ -36,7 +35,7 @@ class PageController
             require_once $controllerFile;
 
             if (class_exists($controllerClass)) {
-                $controller = new $controllerClass();
+                $controller = new $controllerClass($this->user);
 
                 if (method_exists($controller, 'index')) {
                     $data = $controller->index();
@@ -44,7 +43,6 @@ class PageController
             }
         }
 
-        // Pass role and user ID to views
         $data['isHR'] = $isHR;
         $data['userId'] = $userId;
         $data['user'] = $this->user;
@@ -54,7 +52,7 @@ class PageController
         include __DIR__ . '/../views/layout/head.php';
 
         echo '<div class="flex h-screen">';
-        include __DIR__ . '/../views/layout/sidebar.php'; // This should use $isHR to render links
+        include __DIR__ . '/../views/layout/sidebar.php';
 
         echo '<main class="flex-1 overflow-y-auto p-6">';
         include __DIR__ . '/../views/' . $page . '.php';

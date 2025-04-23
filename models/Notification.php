@@ -32,4 +32,11 @@ class Notification
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function markAllAsRead($userId)
+    {
+        $query = "UPDATE notifications SET is_read = 1 WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$userId]);
+    }
 }

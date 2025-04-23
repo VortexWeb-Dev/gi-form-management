@@ -1,12 +1,14 @@
 <?php
-class Database {
+class Database
+{
     private $host = 'localhost';
     private $db_name = 'gi-form-management';
     private $username = 'root';
     private $password = '';
     public $conn;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $this->conn = null;
 
         try {
