@@ -20,42 +20,36 @@
                     <tr>
                         <th class="px-4 py-3">#</th>
                         <th class="px-4 py-3">Form Name</th>
-                        <th class="px-4 py-3">Employee</th>
+                        <th class="px-4 py-3">Assigned To</th>
+                        <th class="px-4 py-3">Assigned By</th>
                         <th class="px-4 py-3">Submission Date</th>
                         <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <?php
-                    // Example array of submitted forms. Replace this with dynamic data from your backend.
-                    $submittedForms = [
-                        ['form_name' => 'NDA Agreement', 'employee_name' => 'Jane Smith', 'submission_date' => '2025-04-15', 'status' => 'Approved', 'form_id' => 1],
-                        ['form_name' => 'Leave Request', 'employee_name' => 'John Doe', 'submission_date' => '2025-04-10', 'status' => 'Pending', 'form_id' => 2],
-                    ];
-
-                    foreach ($submittedForms as $i => $form):
-                    ?>
+                    <?php foreach ($assignments as $index => $assignment): ?>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 font-medium text-gray-800"><?= $i + 1 ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['form_name']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['employee_name']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['submission_date']) ?></td>
+                            <td class="px-4 py-3 font-medium text-gray-800"><?= $index + 1 ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['template_name'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_to'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_by'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3">
+                                <?= $assignment['submitted_at'] ? $assignment['submitted_at'] : '—' ?>
+                            </td>
                             <td class="px-4 py-3">
                                 <?php
-                                // Display status with corresponding styles
-                                if ($form['status'] == 'Approved') {
-                                    echo '<span class="inline-block px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Approved</span>';
-                                } elseif ($form['status'] == 'Pending') {
-                                    echo '<span class="inline-block px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-700">Pending</span>';
-                                } elseif ($form['status'] == 'Rejected') {
-                                    echo '<span class="inline-block px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">Rejected</span>';
-                                }
+                                $status = strtolower($assignment['status']);
+                                $statusColors = [
+                                    'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-700'],
+                                    'submitted' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700'],
+                                    'approved' => ['bg' => 'bg-green-100', 'text' => 'text-green-700'],
+                                    'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-700'],
+                                ];
+                                $color = $statusColors[$status] ?? ['bg' => 'bg-gray-100', 'text' => 'text-gray-700'];
                                 ?>
-                            </td>
-                            <td class="px-4 py-3 text-right space-x-2">
-                                <button class="text-[#0c372a] hover:underline text-sm">View</button>
-                                <button class="text-blue-600 hover:underline text-sm">Download</button>
+                                <span class="inline-block px-2 py-0.5 rounded-full text-xs <?= $color['bg'] ?> <?= $color['text'] ?>">
+                                    <?= ucfirst($status) ?>
+                                </span>
                             </td>
                         </tr>
                     <?php endforeach; ?>
