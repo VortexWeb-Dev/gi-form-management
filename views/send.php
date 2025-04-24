@@ -5,14 +5,14 @@
             <p class="text-sm text-gray-500"><?= htmlspecialchars($description ?? 'Assign specific forms to individual users for completion and signature.') ?></p>
         </div>
 
-        <form class="space-y-4">
+        <form class="space-y-4" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Select Form</label>
                 <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
                     <option value="">Choose a form</option>
-                    <option value="nda">NDA Agreement</option>
-                    <option value="leave">Leave Application</option>
-                    <option value="contract">Employment Contract</option>
+                    <?php foreach ($templates as $template): ?>
+                        <option value="<?= htmlspecialchars($template['id']) ?>"><?= htmlspecialchars($template['title']) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -20,9 +20,9 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Select User</label>
                 <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
                     <option value="">Choose a user</option>
-                    <option value="jane">Jane Smith</option>
-                    <option value="john">John Doe</option>
-                    <option value="lisa">Lisa Adams</option>
+                    <?php foreach ($users as $userId => $userName): ?>
+                        <option value="<?= htmlspecialchars($userId) ?>"><?= htmlspecialchars($userName) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
