@@ -18,6 +18,7 @@
                             <div>
                                 <p class="font-medium text-gray-800"><?= htmlspecialchars($notif['type']) ?> - Assignment #<?= $notif['assignment_id'] ?></p>
                                 <p class="text-sm text-gray-500"><?= htmlspecialchars($notif['message']) ?></p>
+                                <p class="text-sm text-gray-500 mt-2"><?= htmlspecialchars($notif['created_at']) ?></p>
                             </div>
                             <!-- <div class="space-x-2">
                                 <button class="text-[#0c372a] hover:underline text-sm">View</button>
