@@ -5,6 +5,13 @@
                 <h2 class="text-xl font-semibold"><?= htmlspecialchars($title ?? 'History') ?></h2>
                 <p class="text-sm text-gray-500"><?= htmlspecialchars($description ?? 'Access previously completed and signed forms for your profile.') ?></p>
             </div>
+            <select id="statusFilter" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
+                <option value="">Filter by Status</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="submitted">Submitted</option>
+                <option value="rejected">Rejected</option>
+            </select>
         </div>
 
         <!-- History Table -->
@@ -20,16 +27,14 @@
                         <th class="px-4 py-3">Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-gray-100" id="formTableBody">
                     <?php foreach ($assignments as $index => $assignment): ?>
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-gray-50 filter-row" data-status="<?= strtolower($assignment['status']) ?>">
                             <td class="px-4 py-3 font-medium text-gray-800"><?= $index + 1 ?></td>
                             <td class="px-4 py-3"><?= htmlspecialchars($assignment['template_name'] ?? 'N/A') ?></td>
                             <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_to'] ?? 'N/A') ?></td>
                             <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_by'] ?? 'N/A') ?></td>
-                            <td class="px-4 py-3">
-                                <?= $assignment['assigned_at'] ? $assignment['assigned_at'] : '—' ?>
-                            </td>
+                            <td class="px-4 py-3"><?= $assignment['assigned_at'] ? $assignment['assigned_at'] : '—' ?></td>
                             <td class="px-4 py-3">
                                 <?php
                                 $status = strtolower($assignment['status']);
@@ -52,3 +57,20 @@
         </div>
     </div>
 </section>
+
+<!-- JavaScript to handle status filtering -->
+<script>
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        const selectedStatus = this.value;
+        const rows = document.querySelectorAll('#formTableBody tr');
+
+        rows.forEach(row => {
+            const rowStatus = row.getAttribute('data-status');
+            if (!selectedStatus || rowStatus === selectedStatus.toLowerCase()) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
