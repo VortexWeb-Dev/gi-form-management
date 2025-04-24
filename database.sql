@@ -117,15 +117,15 @@ INSERT INTO `form_fields` (`id`, `template_id`, `label`, `type`, `is_required`, 
 -- Employee Onboarding Form Fields
 (1, 1, 'Full Name', 'text', 1, 1, 'Enter your full legal name'),
 (2, 1, 'Date of Joining', 'date', 1, 2, ''),
-(3, 1, 'Position', 'select', 1, 3, 'Select your position'),
-(4, 1, 'Department', 'select', 1, 4, 'Select your department'),
+(3, 1, 'Position', 'text', 1, 3, 'Enter your position'),
+(4, 1, 'Department', 'text', 1, 4, 'Enter your department'),
 (5, 1, 'License Number', 'text', 0, 5, 'Real estate license number (if applicable)'),
 (6, 1, 'Emergency Contact', 'text', 1, 6, 'Name and phone number'),
 (7, 1, 'Residential Address', 'textarea', 1, 7, 'Your current residential address'),
 (8, 1, 'Banking Information', 'textarea', 1, 8, 'For direct deposit of commissions'),
 
 -- Exit Interview Form Fields
-(9, 2, 'Reason for Leaving', 'select', 1, 1, 'Select primary reason'),
+(9, 2, 'Reason for Leaving', 'text', 1, 1, 'Enter primary reason'),
 (10, 2, 'Last Working Day', 'date', 1, 2, ''),
 (11, 2, 'Feedback on Management', 'textarea', 1, 3, 'Please provide honest feedback'),
 (12, 2, 'Feedback on Work Environment', 'textarea', 1, 4, 'Your experience with the work environment'),
@@ -145,7 +145,7 @@ INSERT INTO `form_fields` (`id`, `template_id`, `label`, `type`, `is_required`, 
 (22, 4, 'Property Address', 'text', 1, 1, 'Full property address'),
 (23, 4, 'Showing Date', 'date', 1, 2, ''),
 (24, 4, 'Client Name', 'text', 1, 3, 'Name of potential buyer'),
-(25, 4, 'Client Interest Level', 'select', 1, 4, 'Select interest level (1-5)'),
+(25, 4, 'Client Interest Level', 'text', 1, 4, 'Enter interest level (1-5)'),
 (26, 4, 'Property Feedback', 'textarea', 1, 5, 'Client\'s feedback on the property'),
 (27, 4, 'Price Feedback', 'textarea', 1, 6, 'Client\'s thoughts on pricing'),
 (28, 4, 'Follow-up Required', 'checkbox', 1, 7, 'Does this client require follow-up?'),
@@ -166,7 +166,7 @@ INSERT INTO `form_fields` (`id`, `template_id`, `label`, `type`, `is_required`, 
 
 -- Expense Reimbursement Form Fields
 (39, 7, 'Expense Date', 'date', 1, 1, ''),
-(40, 7, 'Expense Category', 'select', 1, 2, 'Select expense category'),
+(40, 7, 'Expense Category', 'text', 1, 2, 'Enter expense category'),
 (41, 7, 'Amount', 'currency', 1, 3, 'Amount in dollars'),
 (42, 7, 'Receipt Attached', 'file', 1, 4, ''),
 (43, 7, 'Expense Description', 'textarea', 1, 5, 'Detailed description of business expense'),
@@ -174,10 +174,10 @@ INSERT INTO `form_fields` (`id`, `template_id`, `label`, `type`, `is_required`, 
 (45, 7, 'Client Name', 'text', 0, 7, 'If client-related, enter client name'),
 
 -- Equipment Request Form Fields
-(46, 8, 'Equipment Type', 'select', 1, 1, 'Select equipment type'),
+(46, 8, 'Equipment Type', 'text', 1, 1, 'Enter equipment type'),
 (47, 8, 'Equipment Description', 'text', 1, 2, 'Specific details of requested equipment'),
 (48, 8, 'Business Justification', 'textarea', 1, 3, 'Why this equipment is needed'),
-(49, 8, 'Urgency Level', 'select', 1, 4, 'Select urgency level'),
+(49, 8, 'Urgency Level', 'text', 1, 4, 'Enter urgency level'),
 (50, 8, 'Estimated Cost', 'currency', 0, 5, 'If known');
 
 -- --------------------------------------------------------
