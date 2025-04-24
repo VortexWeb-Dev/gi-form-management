@@ -76,7 +76,7 @@ CREATE TABLE notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     assignment_id INT,
-    type ENUM('assigned', 'submitted', 'reminder'),
+    type ENUM('assigned', 'submitted', 'reminder', 'reviewed', 'approved', 'rejected'),
     message TEXT,
     is_read BOOLEAN,
     created_at DATETIME,
