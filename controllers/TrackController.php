@@ -24,8 +24,7 @@ class TrackController
         $formAssignmentModel = new FormAssignment($db);
         $digitalSignatureModel = new DigitalSignature($db);
 
-        // $assignments = $formAssignmentModel->getByHrId($this->user['ID']);
-        $assignments = $formAssignmentModel->getByHrId(1938);
+        $assignments = $formAssignmentModel->getByHrId($this->user['ID']);
         foreach ($assignments as &$assignment) {
             $assignment['assigned_to'] = $this->userMapping[$assignment['assigned_to']] ?? 'Unknown User';
             $assignment['assigned_by'] = $this->userMapping[$assignment['assigned_by']] ?? 'Unknown User';
