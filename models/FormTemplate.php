@@ -11,7 +11,7 @@ class FormTemplate
 
     public function getAll()
     {
-        $query = "SELECT * FROM form_templates WHERE is_active = 1";
+        $query = "SELECT * FROM form_templates";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

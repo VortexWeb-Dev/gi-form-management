@@ -20,25 +20,35 @@
                         <th class="px-4 py-3">Template Name</th>
                         <th class="px-4 py-3">Created By</th>
                         <th class="px-4 py-3">Created On</th>
-                        <th class="px-4 py-3">Category</th>
+                        <th class="px-4 py-3">Is Active</th>
                         <th class="px-4 py-3 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <?php foreach (range(1, 5) as $i): ?>
+                    <?php foreach ($templates as $index => $template): ?>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 font-medium text-gray-800"><?= $i ?></td>
-                            <td class="px-4 py-3">NDA Agreement</td>
-                            <td class="px-4 py-3">HR Team</td>
-                            <td class="px-4 py-3">2025-04-15</td>
-                            <td class="px-4 py-3">HR</td>
+                            <td class="px-4 py-3 font-medium text-gray-800"><?= $index + 1 ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($template['title']) ?></td>
+                            <td class="px-4 py-3">
+                                <?= htmlspecialchars($template['created_by'] ?? 'Unknown') ?>
+                            </td>
+                            <td class="px-4 py-3">
+                                <?= date('Y-m-d', strtotime($template['created_at'])) ?>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                    <?= $template['is_active'] ? 'Yes' : 'No' ?>
+                                </span>
+                            </td>
                             <td class="px-4 py-3 text-right space-x-2">
-                                <button class="text-[#0c372a] hover:underline text-sm">Edit</button>
-                                <button class="text-blue-600 hover:underline text-sm">Download</button>
-                                <button class="text-red-600 hover:underline text-sm">Delete</button>
+                                <a href="?page=edittemplate&id=<?= $template['id'] ?>" class="text-[#0c372a] hover:underline text-sm">Edit</a>
+                                <?php if (!empty($template['file_path'])): ?>
+                                    <a href="<?= htmlspecialchars($template['file_path']) ?>" class="text-blue-600 hover:underline text-sm" download>Download</a>
+                                <?php endif; ?>
+                                <a href="?page=deletetemplate&id=<?= $template['id'] ?>" class="text-red-600 hover:underline text-sm">Delete</a>
                             </td>
                         </tr>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
