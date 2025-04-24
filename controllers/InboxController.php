@@ -28,6 +28,10 @@ class InboxController
             $assignment['assigned_to'] = $this->userMapping[$assignment['assigned_to']] ?? 'Unknown User';
             $assignment['assigned_by'] = $this->userMapping[$assignment['assigned_by']] ?? 'Unknown User';
         }
+        // Filter assignments to only include those that are not submitted
+        $assignments = array_filter($assignments, function ($assignment) {
+            return strtolower($assignment['status']) === 'submitted';
+        });
 
         return [
             'title' => 'Inbox',

@@ -5,7 +5,7 @@
                 <h2 class="text-xl font-semibold"><?= htmlspecialchars($title ?? 'Inbox') ?></h2>
                 <p class="text-sm text-gray-500"><?= htmlspecialchars($description ?? 'View all submitted forms pending HR approval.') ?></p>
             </div>
-            <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
+            <input id="searchInput" type="text" placeholder="Search..." class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
         </div>
 
         <div class="overflow-x-auto">
@@ -107,6 +107,49 @@
                     }
                 });
             </script>
+
+            <script>
+                // Modal logic (already present)
+                document.querySelectorAll('.view-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modal = document.getElementById('assignmentModal');
+                        const content = document.getElementById('modalContent');
+                        content.innerHTML = `
+                <p><strong>Assigned To:</strong> ${button.dataset.to}</p>
+                <p><strong>Assigned By:</strong> ${button.dataset.by}</p>
+                <p><strong>Form Template:</strong> ${button.dataset.form}</p>
+                <p><strong>Date Submitted:</strong> ${button.dataset.date}</p>
+                <p><strong>Status:</strong> ${button.dataset.status}</p>
+            `;
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    });
+                });
+
+                document.getElementById('closeModalBtn').addEventListener('click', () => {
+                    document.getElementById('assignmentModal').classList.add('hidden');
+                    document.getElementById('assignmentModal').classList.remove('flex');
+                });
+
+                window.addEventListener('click', (e) => {
+                    const modal = document.getElementById('assignmentModal');
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                    }
+                });
+
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const filter = this.value.toLowerCase();
+                    const rows = document.querySelectorAll('tbody tr');
+
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(filter) ? '' : 'none';
+                    });
+                });
+            </script>
+
 
         </div>
     </div>
