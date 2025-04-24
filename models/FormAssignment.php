@@ -42,4 +42,22 @@ class FormAssignment
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getByHrId($hrId)
+    {
+        $query = "
+            SELECT 
+                fa.*, 
+                ft.title AS template_name
+            FROM 
+                form_assignments fa
+            LEFT JOIN 
+                form_templates ft ON fa.template_id = ft.id
+            WHERE 
+                fa.assigned_by = ?
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$hrId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
