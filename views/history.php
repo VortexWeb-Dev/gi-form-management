@@ -14,33 +14,36 @@
                     <tr>
                         <th class="px-4 py-3">#</th>
                         <th class="px-4 py-3">Form Name</th>
-                        <th class="px-4 py-3">Employee</th>
-                        <th class="px-4 py-3">Completion Date</th>
+                        <th class="px-4 py-3">Assigned To</th>
+                        <th class="px-4 py-3">Assigned By</th>
+                        <th class="px-4 py-3">Assigned Date</th>
                         <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <?php
-                    // Example array of completed forms. Replace this with dynamic data from your backend.
-                    $completedForms = [
-                        ['form_name' => 'NDA Agreement', 'employee_name' => 'Jane Smith', 'completion_date' => '2025-04-15', 'status' => 'Completed', 'form_id' => 1],
-                        ['form_name' => 'Leave Request', 'employee_name' => 'John Doe', 'completion_date' => '2025-04-10', 'status' => 'Completed', 'form_id' => 2],
-                    ];
-
-                    foreach ($completedForms as $i => $form):
-                    ?>
+                    <?php foreach ($assignments as $index => $assignment): ?>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 font-medium text-gray-800"><?= $i + 1 ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['form_name']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['employee_name']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($form['completion_date']) ?></td>
+                            <td class="px-4 py-3 font-medium text-gray-800"><?= $index + 1 ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['template_name'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_to'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($assignment['assigned_by'] ?? 'N/A') ?></td>
                             <td class="px-4 py-3">
-                                <span class="inline-block px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Completed</span>
+                                <?= $assignment['assigned_at'] ? $assignment['assigned_at'] : '—' ?>
                             </td>
-                            <td class="px-4 py-3 text-right space-x-2">
-                                <button class="text-[#0c372a] hover:underline text-sm">View</button>
-                                <button class="text-blue-600 hover:underline text-sm">Download</button>
+                            <td class="px-4 py-3">
+                                <?php
+                                $status = strtolower($assignment['status']);
+                                $statusColors = [
+                                    'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-700'],
+                                    'submitted' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700'],
+                                    'approved' => ['bg' => 'bg-green-100', 'text' => 'text-green-700'],
+                                    'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-700'],
+                                ];
+                                $color = $statusColors[$status] ?? ['bg' => 'bg-gray-100', 'text' => 'text-gray-700'];
+                                ?>
+                                <span class="inline-block px-2 py-0.5 rounded-full text-xs <?= $color['bg'] ?> <?= $color['text'] ?>">
+                                    <?= ucfirst($status) ?>
+                                </span>
                             </td>
                         </tr>
                     <?php endforeach; ?>

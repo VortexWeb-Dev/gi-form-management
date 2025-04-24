@@ -3,8 +3,8 @@
 class PageController
 {
     private $user;
-    // private $hrDepartmentId = 64;
-    private $hrDepartmentId = 444;
+    private $hrDepartmentId = 64;
+    // private $hrDepartmentId = 444;
     private $userMapping = [
         3 => "Oday Shoubaki",
         148 => "Tosif Ahmed",
@@ -114,7 +114,7 @@ class PageController
     public function render($page)
     {
         $userId = $this->user['ID'];
-        $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']) || $_GET['isHr'] == 'Y';
+        $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']);
 
         if ($isHR) {
             $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate'];
