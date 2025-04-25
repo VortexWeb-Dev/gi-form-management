@@ -32,6 +32,7 @@ class SendController
             'description' => 'Send forms to recipients.',
             'templates' => $templates,
             'users' => $this->userMapping,
+            'userId' => $this->user['ID'],
         ];
     }
 }
