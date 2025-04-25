@@ -4,8 +4,8 @@ class PageController
 {
     private $user;
     private $userMapping;
-    private $hrDepartmentId = 64;
-    // private $hrDepartmentId = 444;
+    // private $hrDepartmentId = 64;
+    private $hrDepartmentId = 444;
 
     public function __construct($user, $userMapping)
     {

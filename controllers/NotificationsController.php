@@ -39,8 +39,5 @@ class NotificationsController
 
         $userId = $this->user['ID'];
         $notificationModel->markAllAsRead($userId);
-
-        header("Location: notifications.php");
-        exit;
     }
 }

@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php foreach ($notifications as $notif): ?>
                         <?php
                         // Set different background based on read status
-                        $bgClass = $notif['is_read'] ? 'bg-green-50 hover:bg-green-100' : 'bg-gray-50 hover:bg-gray-100';
+                        $bgClass = $notif['is_read'] ? 'bg-gray-50 hover:bg-gray-100' : 'bg-green-50 hover:bg-green-100';
                         ?>
                         <li class="flex justify-between items-center py-3 px-4 rounded-lg shadow-sm <?= $bgClass ?>">
                             <div>
