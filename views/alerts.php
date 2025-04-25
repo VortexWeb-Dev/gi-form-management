@@ -1,3 +1,21 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    require_once __DIR__ . '/../config/Database.php';
+    require_once __DIR__ . '/../models/Notification.php';
+
+    $database = new Database();
+    $db = $database->getConnection();
+    $notificationModel = new Notification($db);
+
+    $userId = $_POST['user_id'] ?? null;
+    $notificationModel->markAllAsRead($userId);
+    header('Location: ../index.php?page=alerts');
+}
+
+?>
+
 <section id="alerts" class="mb-10">
     <div class="bg-white p-6 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-4">
@@ -5,9 +23,12 @@
                 <h2 class="text-xl font-semibold"><?= htmlspecialchars($title ?? 'Alerts') ?></h2>
                 <p class="text-sm text-gray-500"><?= htmlspecialchars($description ?? 'Stay updated on assigned forms and pending submissions.') ?></p>
             </div>
-            <button class="inline-block px-4 py-2 text-sm font-semibold text-white bg-[#0c372a] rounded-lg shadow-md hover:bg-[#0a2a1a] focus:outline-none">
-                Mark All as Read
-            </button>
+            <form action="./views/alerts.php" method="POST">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($this->user['ID']) ?>">
+                <button type="submit" class="inline-block px-4 py-2 text-sm font-semibold text-white bg-[#0c372a] rounded-lg shadow-md hover:bg-[#0a2a1a] focus:outline-none">
+                    Mark All as Read
+                </button>
+            </form>
         </div>
 
         <div class="overflow-x-auto">
@@ -26,13 +47,6 @@
                                 <p class="text-sm text-gray-500"><?= htmlspecialchars($notif['message']) ?></p>
                                 <p class="text-sm text-gray-500 mt-2"><?= htmlspecialchars($notif['created_at']) ?></p>
                             </div>
-                            <!-- Uncomment this block if you want actions like view or dismiss -->
-                            <!--
-                <div class="space-x-2">
-                    <button class="text-[#0c372a] hover:underline text-sm">View</button>
-                    <button class="text-gray-600 hover:underline text-sm">Dismiss</button>
-                </div>
-                -->
                         </li>
                     <?php endforeach ?>
                 <?php else: ?>

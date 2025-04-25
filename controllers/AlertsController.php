@@ -29,4 +29,14 @@ class AlertsController
             'notifications' => $notifications,
         ];
     }
+
+    public function markAllAsRead(): void
+    {
+        $database = new Database();
+        $db = $database->getConnection();
+        $notificationModel = new Notification($db);
+
+        $userId = $this->user['ID'];
+        $notificationModel->markAllAsRead($userId);
+    }
 }
