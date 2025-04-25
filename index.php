@@ -16,5 +16,5 @@ if (isset($result['error'])) {
 }
 $user = $result['result'];
 
-$controller = new PageController($user);
+$controller = new PageController($user, require_once __DIR__ . ('/data/userMapping.php'));
 $controller->render($page);
