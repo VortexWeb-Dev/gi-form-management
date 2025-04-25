@@ -99,14 +99,14 @@ CREATE TABLE hr_config (
 --
 
 INSERT INTO `form_templates` (`id`, `title`, `description`, `type`, `file_path`, `created_by`, `created_at`, `updated_at`, `is_active`) VALUES
-(1, 'Employee Onboarding', 'Comprehensive form for onboarding new real estate agents and staff', '/templates/onboarding.pdf', 1938, '2025-01-15 09:30:00', '2025-03-22 14:15:00', 1),
-(2, 'Exit Interview', 'Exit interview form for departing employees', '/templates/exit_interview.pdf', 1938, '2025-01-16 10:45:00', '2025-02-28 11:20:00', 1),
-(3, 'Performance Review', 'Quarterly performance evaluation for real estate agents', '/templates/performance_review.pdf', 1938, '2025-01-20 14:30:00', '2025-04-10 16:45:00', 1),
-(4, 'Property Showing Feedback', 'Form for agents to document client feedback after property showings', '/templates/showing_feedback.pdf', 1938, '2025-02-05 11:15:00', '2025-03-15 09:30:00', 1),
-(5, 'Commission Structure Acknowledgment', 'Form for agents to acknowledge commission structure changes', '/templates/commission_ack.pdf', 1938, '2025-03-01 15:30:00', '2025-03-01 15:30:00', 1),
-(6, 'Training Request', 'Form for requesting additional training or certification courses', '/templates/training_request.pdf', 1938, '2025-03-10 13:45:00', '2025-04-05 10:20:00', 1),
-(7, 'Expense Reimbursement', 'Form for submitting business expenses for reimbursement', '/templates/expense_reimburse.pdf', 1938, '2025-02-15 09:15:00', '2025-04-12 11:30:00', 1),
-(8, 'Equipment Request', 'Request form for office equipment and technology', '/templates/equipment_request.pdf', 1938, '2025-02-18 14:20:00', '2025-03-25 16:10:00', 1);
+(1, 'Employee Onboarding', 'Comprehensive form for onboarding new real estate agents and staff','onboarding', '/templates/onboarding.pdf', 1938, '2025-01-15 09:30:00', '2025-03-22 14:15:00', 1),
+(2, 'Exit Interview', 'Exit interview form for departing employees', 'offboarding', '/templates/exit_interview.pdf', 1938, '2025-01-16 10:45:00', '2025-02-28 11:20:00', 1),
+(3, 'Performance Review', 'Quarterly performance evaluation for real estate agents', 'operation', '/templates/performance_review.pdf', 1938, '2025-01-20 14:30:00', '2025-04-10 16:45:00', 1),
+(4, 'Property Showing Feedback', 'Form for agents to document client feedback after property showings', 'operation', '/templates/showing_feedback.pdf', 1938, '2025-02-05 11:15:00', '2025-03-15 09:30:00', 1),
+(5, 'Commission Structure Acknowledgment', 'Form for agents to acknowledge commission structure changes', 'operation', '/templates/commission_ack.pdf', 1938, '2025-03-01 15:30:00', '2025-03-01 15:30:00', 1),
+(6, 'Training Request', 'Form for requesting additional training or certification courses', 'legal', '/templates/training_request.pdf', 1938, '2025-03-10 13:45:00', '2025-04-05 10:20:00', 1),
+(7, 'Expense Reimbursement', 'Form for submitting business expenses for reimbursement', 'operation', '/templates/expense_reimburse.pdf', 1938, '2025-02-15 09:15:00', '2025-04-12 11:30:00', 1),
+(8, 'Equipment Request', 'Request form for office equipment and technology', 'operation', '/templates/equipment_request.pdf', 1938, '2025-02-18 14:20:00', '2025-03-25 16:10:00', 1);
 
 -- --------------------------------------------------------
 
