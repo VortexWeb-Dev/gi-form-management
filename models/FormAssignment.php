@@ -60,4 +60,18 @@ class FormAssignment
         $stmt->execute([$hrId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function approve($assignmentId)
+    {
+        $query = "UPDATE form_assignments SET status = 'approved' WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$assignmentId]);
+    }
+
+    public function reject($assignmentId)
+    {
+        $query = "UPDATE form_assignments SET status = 'rejected' WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$assignmentId]);
+    }
 }

@@ -1,3 +1,28 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    require_once __DIR__ . '/../config/Database.php';
+    require_once __DIR__ . '/../models/FormAssignment.php';
+
+    $database = new Database();
+    $db = $database->getConnection();
+    $assignmentModel = new FormAssignment($db);
+
+    $assignmentId = $_POST['assignment_id'] ?? null;
+    $action = $_POST['action'] ?? null;
+
+    if ($action === 'approve') {
+        $assignmentModel->approve($assignmentId);
+    } else if ($action === 'reject') {
+        $assignmentModel->reject($assignmentId);
+    }
+
+    header('Location: ../index.php?page=inbox');
+}
+
+?>
+
 <section id="inbox" class="mb-10">
     <div class="bg-white p-6 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-4">
@@ -46,7 +71,7 @@
                                     <?= ucfirst($status) ?>
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-right space-x-2">
+                            <td class="px-4 py-3 text-right space-x-2 flex justify-end">
                                 <button
                                     class="text-[#0c372a] hover:underline text-sm view-btn"
                                     data-id="<?= $assignment['id'] ?>"
@@ -57,8 +82,16 @@
                                     data-status="<?= ucfirst($assignment['status']) ?>">
                                     View
                                 </button>
-                                <button class="text-green-600 hover:underline text-sm">Approve</button>
-                                <button class="text-red-500 hover:underline text-sm">Reject</button>
+                                <form action="./views/inbox.php" method="POST">
+                                    <input type="hidden" name="assignment_id" value="<?= $assignment['id'] ?>">
+                                    <input type="hidden" name="action" value="approve">
+                                    <button type="submit" class="text-green-600 hover:underline text-sm">Approve</button>
+                                </form>
+                                <form action="./views/inbox.php" method="POST">
+                                    <input type="hidden" name="assignment_id" value="<?= $assignment['id'] ?>">
+                                    <input type="hidden" name="action" value="reject">
+                                    <button type="submit" class="text-red-600 hover:underline text-sm">Reject</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>
