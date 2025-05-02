@@ -1,3 +1,28 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/../config/Database.php';
+    require_once __DIR__ . '/../models/FormResponse.php';
+    require_once __DIR__ . '/../models/FormAssignment.php';
+    require_once __DIR__ . '/../models/Notification.php';
+
+    $database = new Database();
+    $db = $database->getConnection();
+
+    $assignmentModel = new FormAssignment($db);
+    $responseModel = new FormResponse($db);
+    $notificationModel = new Notification($db);
+
+    $formId = $_POST['form_id'] ?? null;
+
+    // Add to form_assignments (template_id: form_id, status: submitted, assigned_to: user_id, assigned_by: hr_id, assigned_at: now, submitted_at: now, remarks: Submitted by user without HR assignment)
+    $assignmentModel->createAssignment($formId, $this->user['ID'], 1938, 'Submitted by user without HR assignment');
+    // Add to form_responses (assignment_id: form_assignment_id, field_id: field_id, response_value: field_value)
+    
+    // Add to notifications for HR (user_id: hr_id, assignment_id: form_assignment_id, type: submitted, message: Submitted by user without HR assignment, created_at: now)
+}
+
+?>
 <section id="fill" class="mb-10">
     <div class="bg-white p-6 rounded-2xl shadow">
         <div class="flex items-center justify-between mb-4">
@@ -29,7 +54,7 @@
                         </button>
 
                         <div class="accordion-content hidden px-4 pb-4">
-                            <form action="submit_form.php" method="POST" class="space-y-4 mt-4">
+                            <form action="./views/fill.php" method="POST" class="space-y-4 mt-4">
                                 <input type="hidden" name="form_id" value="<?= $form['id'] ?>">
 
                                 <?php
@@ -78,7 +103,7 @@
                                                 <?php if (in_array($field['type'], ['text', 'number', 'currency', 'percentage'])): ?>
                                                     <input
                                                         type="<?= in_array($field['type'], ['currency', 'percentage']) ? 'number' : $field['type'] ?>"
-                                                        name="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
+                                                        name="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
                                                         placeholder="<?= htmlspecialchars($field['placeholder'] ?? "Please enter {$field['label']}") ?>"
                                                         <?= $required ?>
                                                         class="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring focus:border-[#0c372a]"
@@ -90,12 +115,12 @@
                                                 <?php elseif ($field['type'] === 'date'): ?>
                                                     <input
                                                         type="date"
-                                                        name="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
+                                                        name="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
                                                         <?= $required ?>
                                                         class="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
                                                 <?php elseif ($field['type'] === 'textarea'): ?>
                                                     <textarea
-                                                        name="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
+                                                        name="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
                                                         placeholder="<?= htmlspecialchars($field['placeholder']) ?>"
                                                         <?= $required ?>
                                                         rows="3"
@@ -104,18 +129,18 @@
                                                     <div class="flex items-center">
                                                         <input
                                                             type="checkbox"
-                                                            id="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
-                                                            name="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
+                                                            id="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
+                                                            name="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
                                                             <?= $required ?>
                                                             class="h-4 w-4 text-[#0c372a] focus:ring-[#0c372a] border-gray-300 rounded">
-                                                        <label for="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>" class="ml-2 block text-sm text-gray-600">
+                                                        <label for="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>" class="ml-2 block text-sm text-gray-600">
                                                             <?= htmlspecialchars($field['placeholder']) ?>
                                                         </label>
                                                     </div>
                                                 <?php elseif ($field['type'] === 'file'): ?>
                                                     <input
                                                         type="file"
-                                                        name="field_<?= $field['field_order'] ?>_<?= array_search($field, $fields) ?>"
+                                                        name="field_<?= $field['field_order'] ?>_<?= $field['id'] ?>_<?= array_search($field, $fields) ?>"
                                                         <?= $required ?>
                                                         class="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring focus:border-[#0c372a]">
                                                 <?php endif; ?>
