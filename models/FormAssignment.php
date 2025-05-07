@@ -96,14 +96,14 @@ class FormAssignment
         return $stmt->execute([$assignmentId]);
     }
 
-    public function createAssignment($templateId, $assignedTo, $assignedBy, $remarks = null)
+    public function createAssignment($templateId, $assignedTo, $assignedBy, $status = "pending", $remarks = null)
     {
         $query = "INSERT INTO form_assignments
                      (template_id, assigned_to, assigned_by, status, remarks, assigned_at)
                    VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $assignedAt = date('Y-m-d H:i:s');
-        $success = $stmt->execute([$templateId, $assignedTo, $assignedBy, 'pending', $remarks, $assignedAt]);
+        $success = $stmt->execute([$templateId, $assignedTo, $assignedBy, $status, $remarks, $assignedAt]);
         if (!$success) {
             return false;
         }

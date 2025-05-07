@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $remarks    = 'Submitted by user without HR assignment';
 
     // — STEP 1 (already): create the assignment and get its new ID —
-    $assignmentId = $assignmentModel->createAssignment($templateId, $userId, $hrId, $remarks);
+    $assignmentId = $assignmentModel->createAssignment($templateId, $userId, $hrId, "submitted", $remarks);
     if (!$assignmentId) {
         throw new Exception("Failed to create assignment.");
     }
