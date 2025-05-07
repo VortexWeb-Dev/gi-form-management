@@ -53,9 +53,8 @@
                             </td>
 
                             <td class="px-4 py-3 text-right">
-                                <a href="/form/view/<?= htmlspecialchars($assignment['id']) ?>" class="text-blue-600 hover:text-blue-800">View</a>
-                                <a href="/form/edit/<?= htmlspecialchars($assignment['id']) ?>" class="text-green-600 hover:text-green-800 ml-2">Edit</a>
-                                <a href="/form/delete/<?= htmlspecialchars($assignment['id']) ?>" class="text-red-600 hover:text-red-800 ml-2">Delete</a>
+                                <a href="?page=form&action=view&id=<?= htmlspecialchars($assignment['id']) ?>" class="text-blue-600 hover:text-blue-800">View</a>
+                                <a href="/form/edit/<?= htmlspecialchars($assignment['id']) ?>" class="text-green-600 hover:text-green-800 ml-2">Fill and Sign</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

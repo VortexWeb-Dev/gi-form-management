@@ -19,9 +19,9 @@ class PageController
         $isHR = in_array($this->hrDepartmentId, (array) $this->user['UF_DEPARTMENT']);
 
         if ($isHR) {
-            $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate'];
+            $allowed = ['dashboard', 'inbox', 'archive', 'templates', 'config', 'track', 'send', 'log', 'notifications', 'addtemplate', 'form'];
         } else {
-            $allowed = ['myforms', 'fill', 'submitted', 'history', 'alerts'];
+            $allowed = ['myforms', 'fill', 'submitted', 'history', 'alerts', 'form'];
         }
 
         if (!in_array($page, $allowed)) {
@@ -39,8 +39,9 @@ class PageController
             if (class_exists($controllerClass)) {
                 $controller = new $controllerClass($this->user, $this->userMapping);
 
-                if (method_exists($controller, 'index')) {
-                    $data = $controller->index();
+                $action = $_GET['action'] ?? 'index';
+                if (method_exists($controller, $action)) {
+                    $data = $controller->{$action}();
                 }
             }
         }

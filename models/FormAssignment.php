@@ -25,6 +25,27 @@ class FormAssignment
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getById(int $id): ?array
+    {
+        $query = "
+            SELECT 
+                fa.*,
+                ft.title      AS template_name,
+                ft.description AS template_description
+            FROM 
+                form_assignments fa
+            LEFT JOIN 
+                form_templates ft ON fa.template_id = ft.id
+            WHERE 
+                fa.id = ?
+            LIMIT 1
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
     public function getByUserId($userId)
     {
         $query = "
