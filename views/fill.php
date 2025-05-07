@@ -1,24 +1,50 @@
 <?php
-// views/fill.php
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/../config/Database.php';
     require_once __DIR__ . '/../models/FormResponse.php';
     require_once __DIR__ . '/../models/FormAssignment.php';
     require_once __DIR__ . '/../models/Notification.php';
 
-    $database = new Database();
-    $db = $database->getConnection();
-
+    $db                = (new Database())->getConnection();
     $assignmentModel   = new FormAssignment($db);
     $responseModel     = new FormResponse($db);
     $notificationModel = new Notification($db);
 
-    $formId = $_POST['form_id'] ?? null;
+    $templateId = (int) ($_POST['form_id'] ?? 0);
+    $userId     = $this->user['ID'];
+    $hrId       = 1938;  // or derive dynamically if you have that logic
+    $remarks    = 'Submitted by user without HR assignment';
 
-    // TODO: handle saving responses, assignments, notifications...
+    // — STEP 1 (already): create the assignment and get its new ID —
+    $assignmentId = $assignmentModel->createAssignment($templateId, $userId, $hrId, $remarks);
+    if (!$assignmentId) {
+        throw new Exception("Failed to create assignment.");
+    }
+
+    // — STEP 2: save each field response —
+    foreach ($_POST as $key => $value) {
+        // match only keys like "field_{order}_{fieldId}_{idx}"
+        if (preg_match('/^field_\d+_(\d+)_\d+$/', $key, $m)) {
+            $fieldId = (int)$m[1];
+            // skip empty (optional) fields
+            if ($value === '') {
+                continue;
+            }
+            $ok = $responseModel->create($assignmentId, $fieldId, $value);
+            if (!$ok) {
+                throw new Exception("Failed to save response for field {$fieldId}.");
+            }
+        }
+    }
+
+    // — STEP 3: notify HR of the new submission —
+    $notificationModel->create(
+        $hrId,
+        $assignmentId,
+        'submitted',
+        $remarks
+    );
 }
-
 ?>
 <section id="fill" class="mb-10">
     <div class="bg-white p-6 rounded-2xl shadow">

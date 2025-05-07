@@ -44,8 +44,9 @@ class FillController
             }
 
             $templates[$templateId]['fields'][] = [
-                'label' => $record['label'],
-                'type' => $record['type'],
+                'id'          => $record['field_id'],
+                'label'       => $record['label'],
+                'type'        => $record['type'],
                 'is_required' => $record['is_required'],
                 'field_order' => $record['field_order'],
                 'placeholder' => $record['placeholder'],
