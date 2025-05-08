@@ -53,10 +53,8 @@
                                 <a href="?page=form&action=view&id=<?= $a['id'] ?>"
                                     class="text-blue-600 hover:text-blue-800">View</a>
                                 <button
-                                    data-modal-open="modal-<?= $a['id'] ?>"
-                                    class="text-green-600 hover:text-green-800 ml-2">
-                                    Fill &amp; Sign
-                                </button>
+                                    data-modal-target="modal-<?= $a['id'] ?>"
+                                    class="text-green-600 hover:text-green-800 ml-2">Fill &amp; Sign</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -67,22 +65,13 @@
 
     <!-- Modals: render *after* the table -->
     <?php foreach ($assignments as $a): ?>
-        <?php
-        // Guarantee we have an array for fields
-        $fields = $a['fields'] ?? [];
-        // Sort only if there’s more than one
-        if (count($fields) > 1) {
-            usort($fields, fn($x, $y) => $x['field_order'] <=> $y['field_order']);
-        }
-        ?>
         <div
             id="modal-<?= $a['id'] ?>"
             class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-start overflow-y-auto">
-            <div
-                class="bg-white rounded-lg max-w-2xl w-full my-8 p-6 relative max-h-[80vh] overflow-y-auto">
+            <div class="bg-white rounded-lg max-w-2xl w-full my-8 p-6 relative max-h-[80vh] overflow-y-auto">
                 <button
-                    data-modal-close="<?= $a['id'] ?>"
-                    class="absolute top-2 right-2 text-gray-500 text-2xl">&times;</button>
+                    class="absolute top-2 right-2 text-gray-500 text-2xl"
+                    onclick="toggleModal('modal-<?= $a['id'] ?>')">&times;</button>
 
                 <h3 class="text-xl font-semibold mb-4"><?= htmlspecialchars($a['template_name']) ?></h3>
 
@@ -92,7 +81,9 @@
                     class="space-y-4">
                     <input type="hidden" name="assignment_id" value="<?= $a['id'] ?>">
 
-                    <?php foreach ($fields as $f):
+                    <?php
+                    usort($a['fields'], fn($x, $y) => $x['field_order'] <=> $y['field_order']);
+                    foreach ($a['fields'] as $f):
                         $fname = "field_{$a['id']}_{$f['id']}";
                         $req   = $f['is_required'] ? 'required' : '';
                         $star  = $f['is_required'] ? '<span class="text-red-500">*</span>' : '';
@@ -101,7 +92,6 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">
                                 <?= htmlspecialchars($f['label']) ?> <?= $star ?>
                             </label>
-
                             <?php if (in_array($f['type'], ['text', 'number', 'currency', 'percentage'])): ?>
                                 <input
                                     type="<?= $f['type'] === 'currency' ? 'number' : $f['type'] ?>"
@@ -128,8 +118,8 @@
                     <div class="flex justify-end space-x-2 mt-4">
                         <button
                             type="button"
-                            data-modal-close="<?= $a['id'] ?>"
-                            class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                            class="px-4 py-2 bg-gray-200 rounded"
+                            onclick="toggleModal('modal-<?= $a['id'] ?>')">Cancel</button>
                         <button
                             type="submit"
                             class="px-4 py-2 bg-[#0c372a] text-white rounded">Submit</button>
@@ -140,28 +130,18 @@
     <?php endforeach; ?>
 </section>
 
-<!-- Move this script *after* all PHP so it always renders -->
 <script>
-    // Define on window immediately
-    window.toggleModal = id => {
-        const m = document.getElementById('modal-' + id);
-        if (!m) return console.warn('No modal for', id);
+    function toggleModal(id) {
+        const m = document.getElementById(id);
         m.classList.toggle('hidden');
         m.classList.toggle('flex');
-    };
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Openers
-        document.querySelectorAll('button[data-modal-open]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                toggleModal(btn.getAttribute('data-modal-open'));
-            });
-        });
-        // Closers
-        document.querySelectorAll('button[data-modal-close]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                toggleModal(btn.getAttribute('data-modal-close'));
-            });
+    document.querySelectorAll('[data-modal-target]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            console.log(`Toggling modal for ${btn.getAttribute('data-modal-target')}`);
+            
+            toggleModal(btn.getAttribute('data-modal-target'));
         });
     });
 </script>
