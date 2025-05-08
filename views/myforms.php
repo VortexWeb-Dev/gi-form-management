@@ -81,7 +81,7 @@
             <div
                 class="bg-white rounded-lg max-w-2xl w-full my-8 p-6 relative max-h-[80vh] overflow-y-auto">
                 <button
-                    data-modal-close="<?= $a['id'] ?>"
+                    data-modal-close="modal-<?= $a['id'] ?>"
                     class="absolute top-2 right-2 text-gray-500 text-2xl">&times;</button>
 
                 <h3 class="text-xl font-semibold mb-4"><?= htmlspecialchars($a['template_name']) ?></h3>
@@ -128,7 +128,7 @@
                     <div class="flex justify-end space-x-2 mt-4">
                         <button
                             type="button"
-                            data-modal-close="<?= $a['id'] ?>"
+                            data-modal-close="modal-<?= $a['id'] ?>"
                             class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
                         <button
                             type="submit"
@@ -144,7 +144,7 @@
 <script>
     // Define on window immediately
     window.toggleModal = id => {
-        const m = document.getElementById('modal-' + id);
+        const m = document.getElementById(id); // Already uses full ID like 'modal-28'
         if (!m) return console.warn('No modal for', id);
         m.classList.toggle('hidden');
         m.classList.toggle('flex');
